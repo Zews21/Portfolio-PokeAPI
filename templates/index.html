@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pokémon Info</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Pokémon Info</h1>
+    <form action="/pokemon" method="POST">
+        <input type="text" name="pokemon_name" placeholder="Enter Pokémon Name" required>
+        <button type="submit">Search</button>
+    </form>
+
+    {% if error %}
+    <p style="color: red;">{{ error }}</p>
+    {% endif %}
+
+    {% if pokemon %}
+    <h2>Results for {{ pokemon['name'].capitalize() }}</h2>
+
+    {% if image_url %}
+    <img src="{{ image_url }}" alt="{{ pokemon['name'] }} image">
+    {% endif %}
+
+    <p>Base Experience: {{ pokemon['base_experience'] }}</p>
+    <p>Height: {{ pokemon['height'] }}</p>
+    <p>Weight: {{ pokemon['weight'] }}</p>
+    <p>Abilities:</p>
+    <ul>
+        {% for ability in pokemon['abilities'] %}
+        <li>{{ ability['ability']['name'] }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</body>
+</html>
